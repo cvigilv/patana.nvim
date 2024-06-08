@@ -17,9 +17,16 @@ A minimalistic Neovim theme inspired in [Patana Tufillo](https://31minutos.fando
 
 ## Showcase
 
-Barebones Neovim config
+Barebones Neovim config:
+<p align="center">
+<img src="https://github.com/cvigilv/patana.nvim/assets/30091515/2e9e3fcb-265e-4a54-a6b0-0849dedd3283" width="66%">
+</p>
 
-`cvigilv` Neovim config
+
+Personal Neovim config:
+<p align="center">
+<img src="https://github.com/cvigilv/patana.nvim/assets/30091515/ad76abec-68e1-4541-9d7c-6d91687b3234" width="66%">
+</p>
 
 ## Features
 
