@@ -461,7 +461,7 @@ end
 
 vim.api.nvim_create_autocmd("FileType", {
 	group = augroup,
-	pattern = { "qf", "lazy", "mason", "help", "oil", "undotree", "diff" },
+	pattern = { "qf", "lazy", "mason", "help", "oil", "undotree", "diff", "gitcommit" },
 	callback = set_whl,
 })
 vim.api.nvim_create_autocmd("TermOpen", {
