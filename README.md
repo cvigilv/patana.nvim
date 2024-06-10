@@ -17,15 +17,40 @@ A minimalistic Neovim theme inspired in [Patana Tufillo](https://31minutos.fando
 
 ## Showcase
 
-Barebones Neovim config:
+Telescope:
 <p align="center">
-<img src="https://github.com/cvigilv/patana.nvim/assets/30091515/2e9e3fcb-265e-4a54-a6b0-0849dedd3283" width="66%">
+<img width="66%" alt="Screenshot 2024-06-10 at 00 39 00" src="https://github.com/cvigilv/patana.nvim/assets/30091515/b28e7e42-9e70-419b-9b85-25571925faad">
 </p>
 
-
-Personal Neovim config:
+Quickfix window:
 <p align="center">
-<img src="https://github.com/cvigilv/patana.nvim/assets/30091515/ad76abec-68e1-4541-9d7c-6d91687b3234" width="66%">
+<img width="66%" alt="Screenshot 2024-06-10 at 00 39 20" src="https://github.com/cvigilv/patana.nvim/assets/30091515/bf9b4964-131c-4b5f-bed8-7ea889ac4f31">
+</p>
+
+Oil window:
+<p align="center">
+<img width="66%" alt="Screenshot 2024-06-10 at 00 38 10" src="https://github.com/cvigilv/patana.nvim/assets/30091515/86f1b1b9-7a6d-42ea-99b9-62057c71c73f">
+</p>
+
+WhichKey:
+<p align="center">
+<img width="66%" alt="Screenshot 2024-06-10 at 00 36 17" src="https://github.com/cvigilv/patana.nvim/assets/30091515/ece1b766-8a3a-495f-ad49-2eb79f71fd28">
+</p>
+
+Pmenu:
+<p align="center">
+<img width="66%" alt="Screenshot 2024-06-10 at 00 37 44" src="https://github.com/cvigilv/patana.nvim/assets/30091515/a3b225df-fa1f-449e-8edd-9fcff03bb08d">
+</p>
+
+Terminal:
+<p align="center">
+<img width="66%" alt="Screenshot 2024-06-10 at 00 33 32" src="https://github.com/cvigilv/patana.nvim/assets/30091515/809acaf5-55d0-4fb6-8f3f-a8fd906b094e">
+</p>
+
+Fully-fledged editing in full-screen:
+<p align="center">
+<img width="1680" alt="Screenshot 2024-06-10 at 00 41 21" src="https://github.com/cvigilv/patana.nvim/assets/30091515/946b023c-4ce4-4ba3-a138-22acfd12ae78">
+
 </p>
 
 ## Features
