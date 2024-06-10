@@ -53,15 +53,16 @@ local colors = {
 local palette
 if vim.o.background == "dark" then
 	palette = {
-		bg = colors.grays["050"],
-		bg_subtle = colors.grays["100"],
-		bg_very_subtle = colors.grays["200"],
+		bg = colors.grays["100"],
+		bg_subtle = colors.grays["150"],
+		bg_very_subtle = colors.grays["250"],
 		norm = colors.grays["850"],
 		norm_subtle = colors.grays["800"],
 		norm_very_subtle = colors.grays["700"],
 
-		cursor_line = colors.grays["100"],
+		cursor_line = colors.grays["150"],
 		comment = colors.grays["450"],
+		oob = colors.grays["000"],
 
 		visual = colors.orange_pastel,
 		literal = colors.purple_light,
@@ -87,6 +88,7 @@ else
 
 		cursor_line = colors.grays["800"],
 		comment = colors.grays["450"],
+		oob = colors.grays["900"],
 
 		visual = colors.orange_light,
 		literal = colors.green_dark,
@@ -165,14 +167,14 @@ local hlgroups = {
 	SpellRare = { link = "SpellBad" },
 	--}}}
 	-- ui {{{
-	ColorColumn = { bg = palette.bg_very_subtle },
+	ColorColumn = { link = "CursorLine" },
 	Conceal = { link = "Comment" },
 	CurSearch = { link = "Visual" },
 	Cursor = { fg = palette.bg, bg = palette.accent },
 	CursorColumn = { link = "CursorLine" },
 	CursorLine = { bg = palette.cursor_line },
 	CursorLineNr = { fg = palette.norm, bg = palette.cursor_line, bold = true },
-	EndOfBuffer = { link = "ColorColumn" },
+	EndOfBuffer = { link = "Normal" },
 	ErrorMsg = { fg = palette.accent, bold = true },
 	FloatBorder = { fg = palette.norm_subtle, bg = palette.bg_subtle },
 	FloatTitle = {
@@ -202,20 +204,20 @@ local hlgroups = {
 	Search = { link = "Visual" },
 	SignColumn = { bg = palette.bg, fg = palette.norm, bold = true },
 	SpecialKey = { fg = palette.norm_subtle },
-	StatusLine = { fg = palette.norm, bg = palette.bg_subtle },
-	StatusLineNC = { fg = palette.norm, bg = palette.bg_very_subtle, italic = true },
+	StatusLine = { fg = palette.norm, bg = palette.cursor_line },
+	StatusLineNC = { fg = palette.norm, bg = palette.oob, italic = true },
 	StatusLineTerm = { link = "StatusLine" },
 	StatusLineTermNC = { link = "StatusLineNC" },
 	Substitute = { link = "IncSearch" },
-	TabLine = { fg = palette.norm_subtle, bg = palette.bg_subtle },
-	TabLineFill = { fg = palette.norm_very_subtle, bg = palette.bg_very_subtle },
+	TabLine = { fg = palette.norm_very_subtle, bg = palette.bg_very_subtle },
+	TabLineFill = { bg = palette.oob },
 	TabLineSel = { fg = palette.norm, bg = palette.bg, bold = true },
 	Visual = { bg = palette.visual, fg = palette.fg },
 	WarningMsg = { fg = palette.critical, bold = true },
 	WildMenu = { link = "IncSearch" },
 	WinBar = { link = "StatusLine" },
 	WinBarNC = { link = "StatusLineNc" },
-	WinSeparator = { fg = palette.bg_very_subtle, bg = palette.bg },
+	WinSeparator = { fg = palette.norm, bg = palette.bg },
 	--}}}
 	-- diagnostics {{{
 	DiagnosticDeprecated = { strikethrough = true },
@@ -431,7 +433,41 @@ local hlgroups = {
 	OilLinkTarget = { link = "Underline" },
 	OilTrashSourcePath = { link = "Normal" },
 	--}}}
+	-- sidebar {{{
+	NormalSB = { fg = palette.norm, bg = palette.oob },
+	SignColumnSB = { fg = palette.norm, bg = palette.oob },
+	WinSeparatorSB = { fg = palette.norm, bg = palette.oob },
+	--}}}
 }
+
+-- Autocommands (source: https://github.com/folke/tokyonight.nvim/blob/f9e738e2dc78326166f11c021171b2e66a2ee426/lua/tokyonight/util.lua#L67)
+local augroup = vim.api.nvim_create_augroup("patana", { clear = true })
+vim.api.nvim_create_autocmd("ColorSchemePre", {
+	group = augroup,
+	callback = function()
+		vim.api.nvim_del_augroup_by_id(augroup)
+	end,
+})
+
+local function set_whl()
+	local win = vim.api.nvim_get_current_win()
+	local whl = vim.split(vim.wo[win].winhighlight, ",")
+	vim.list_extend(whl, { "Normal:NormalSB", "SignColumn:SignColumnSB", "WinSeparator:WinSeparatorSB" })
+	whl = vim.tbl_filter(function(hl)
+		return hl ~= ""
+	end, whl)
+	vim.opt_local.winhighlight = table.concat(whl, ",")
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+	group = augroup,
+	pattern = { "qf", "lazy", "mason", "help", "oil", "undotree", "diff" },
+	callback = set_whl,
+})
+vim.api.nvim_create_autocmd("TermOpen", {
+	group = augroup,
+	callback = set_whl,
+})
 
 for group, highlight in pairs(hlgroups) do
 	vim.api.nvim_set_hl(0, group, highlight)
