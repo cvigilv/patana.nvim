@@ -78,19 +78,6 @@ local colors = {
 		["800"] = "#d6b8e0",
 		["900"] = "#eadcef", -- lighter
 	},
-
-	green_pastel = "#B3D8AB",
-	green_light = "#7BB662",
-	green_dark = "#589C48",
-
-	orange_darker = "#c07204",
-	orange_dark = "#F58024",
-	orange_light = "#fbb149",
-	orange_pastel = "#fdd193",
-
-	purple_pastel = "#D2A7DC",
-	purple_light = "#994fb2",
-	purple_dark = "#733381",
 }
 
 -- NOTE: The aim is the following:
@@ -114,16 +101,12 @@ if vim.o.background == "dark" then
 		comment = colors.grays["450"],
 		oob = colors.grays["000"],
 
-		visual = colors.green_dark,
-		literal = colors.orange_light,
+		visual = colors.greens["200"],
+		literal = colors.purples["700"],
 
-		add = colors.green_dark,
-		change = colors.orange_darker,
-		delete = colors.purple_dark,
-
-		error = colors.purple_pastel,
-		warn = colors.orange_pastel,
-		hint = colors.green_pastel,
+		error = colors.purples["400"],
+		warn = colors.oranges["400"],
+		hint = colors.greens["400"],
 		info = colors.grays["850"],
 		ok = colors.grays["850"],
 	}
@@ -140,18 +123,14 @@ else
 		comment = colors.grays["450"],
 		oob = colors.grays["900"],
 
-		visual = colors.orange_pastel,
-		literal = colors.green_dark,
+		visual = colors.oranges["800"],
+		literal = colors.greens["500"],
 
-		add = colors.green_pastel,
-		change = colors.orange_pastel,
-		delete = colors.purple_pastel,
-
-		error = colors.purple_dark,
-		warn = colors.orange_dark,
-		hint = colors.green_dark,
-		info = colors.grays["050"],
-		ok = colors.norm_subtle,
+		error = colors.purples["600"],
+		warn = colors.oranges["600"],
+		hint = colors.greens["600"],
+		info = colors.grays["850"],
+		ok = colors.grays["850"],
 	}
 end
 
