@@ -10,6 +10,18 @@ end
 vim.o.termguicolors = true
 vim.g.colors_name = "patana"
 
+-- Configuration
+vim.g.patana_sidebar_filetypes = {
+	"qf",
+	"lazy",
+	"mason",
+	"help",
+	"oil",
+	"undotree",
+	"diff",
+	"gitcommit",
+}
+
 local colors = {
 	grays = {
 		["000"] = "#000000",
@@ -391,7 +403,7 @@ end
 
 vim.api.nvim_create_autocmd("FileType", {
 	group = augroup,
-	pattern = { "qf", "lazy", "mason", "help", "oil", "undotree", "diff", "gitcommit" },
+	pattern = vim.g.patana_sidebar_filetypes,
 	callback = set_whl,
 })
 vim.api.nvim_create_autocmd("TermOpen", {
