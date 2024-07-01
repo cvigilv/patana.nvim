@@ -129,8 +129,8 @@ else
 		error = colors.purples["600"],
 		warn = colors.oranges["600"],
 		hint = colors.greens["600"],
-		info = colors.grays["850"],
-		ok = colors.grays["850"],
+		info = colors.grays["050"],
+		ok = colors.grays["050"],
 	}
 end
 
