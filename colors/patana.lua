@@ -18,6 +18,9 @@ end
 vim.o.termguicolors = true
 vim.g.colors_name = "patana"
 
+-- Constants
+local DEFAULT_ORDER = { "greens", "oranges", "purples" }
+
 -- Configuration
 vim.g.patana_sidebar_filetypes = {
 	"qf",
@@ -29,6 +32,9 @@ vim.g.patana_sidebar_filetypes = {
 	"diff",
 	"gitcommit",
 }
+if vim.g.patana_color_order == nil then
+	vim.g.patana_color_order = DEFAULT_ORDER
+end
 
 local colors = {
 	grays = {
@@ -89,12 +95,37 @@ local colors = {
 }
 
 -- Setup colors to use
-local primary = "greens"
-local secondary = "oranges"
-local accent = "purples"
+local primary
+local secondary
+local accent
 
---       - Visual and search will have a "highlighter" style background (`visual`)
---       - Diff status also colored, but it should be subtle
+local is_color_order_valid = function(order)
+	if #order ~= 3 then
+		return
+	end
+
+	for _, color in ipairs(order) do
+		if not vim.tbl_contains(DEFAULT_ORDER, color) then
+			vim.notify("patana.nvim :: '" .. color .. "' is not a valid color", vim.log.levels.ERROR)
+			return
+		end
+	end
+
+	return true
+end
+
+if is_color_order_valid(vim.g.patana_color_order) then
+	primary = vim.g.patana_color_order[1]
+	secondary = vim.g.patana_color_order[2]
+	accent = vim.g.patana_color_order[3]
+else
+	vim.notify("patana.nvim :: Invalid color order setup, falling back to default", vim.log.levels.ERROR)
+	primary = DEFAULT_ORDER[1]
+	secondary = DEFAULT_ORDER[2]
+	accent = DEFAULT_ORDER[3]
+end
+
+-- stylua: ignore start
 local palette
 if vim.o.background == "dark" then
 	palette = {
