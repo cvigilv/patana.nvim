@@ -94,6 +94,12 @@ local colors = {
 	},
 }
 
+local contrasting = {
+	greens = { fg = colors.grays["000"], bg = colors.greens["700"] },
+	oranges = { fg = colors.grays["000"], bg = colors.oranges["700"] },
+	purples = { fg = colors.grays["900"], bg = colors.purples["700"] },
+}
+
 -- Setup colors to use
 local primary
 local secondary
@@ -266,8 +272,8 @@ local hlgroups = {
 	Search            = { bg = palette.search },
 	SignColumn        = { bg = palette.bg, fg = palette.norm, bold = true },
 	SpecialKey        = { fg = palette.norm_subtle },
-	StatusLine        = { fg = palette.norm, bg = palette.cursor_line },
-	StatusLineNC      = { fg = palette.norm, bg = palette.oob, italic = true },
+	StatusLine        = vim.tbl_extend("force", contrasting[primary], { bold = true }),
+	StatusLineNC      = contrasting[primary],
 	StatusLineTerm    = { link = "StatusLine" },
 	StatusLineTermNC  = { link = "StatusLineNC" },
 	Substitute        = { link = "Search" },
