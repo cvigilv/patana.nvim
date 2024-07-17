@@ -2,6 +2,14 @@
 ---@author Carlos Vigil-Vásquez
 ---@license MIT
 
+-- NOTE: The aim is the following:
+--       - Mainly monochrome, with color for literals (`literal`) and errors (`error`)
+--       - Things that require my attention should be in *bold* typeface
+--       - Things that don't require my attention should be in *italic* typeface
+--       - UI stuff that require attention should be highlighted with accent color
+--       - Visual and search will have a "highlighter" style background (`visual`)
+--       - Diff status also colored, but it should be subtle
+
 vim.cmd.highlight("clear")
 if vim.fn.exists("syntax_on") then
 	vim.cmd.syntax("reset")
@@ -9,6 +17,9 @@ end
 
 vim.o.termguicolors = true
 vim.g.colors_name = "patana"
+
+-- Constants
+local DEFAULT_ORDER = { "greens", "oranges", "purples" }
 
 -- Configuration
 vim.g.patana_sidebar_filetypes = {
@@ -21,6 +32,9 @@ vim.g.patana_sidebar_filetypes = {
 	"diff",
 	"gitcommit",
 }
+vim.g.patana_primary_color = vim.g.patana_primary_color or "greens"
+vim.g.patana_secondary_color = vim.g.patana_secondary_color or "oranges"
+vim.g.patana_accent_color = vim.g.patana_accent_color or "purples"
 
 local colors = require("patana.colors")
 local contrasting = {
@@ -33,276 +47,272 @@ local contrasting = {
 local palette
 if vim.o.background == "dark" then
 	palette = {
-		bg = colors.grays["100"],
-		bg_subtle = colors.grays["150"],
-		bg_very_subtle = colors.grays["250"],
-		norm = colors.grays["850"],
-		norm_subtle = colors.grays["800"],
+    -- Normal
+		bg               = colors.grays["100"],
+		bg_subtle        = colors.grays["150"],
+		bg_very_subtle   = colors.grays["250"],
+		norm             = colors.grays["850"],
+		norm_subtle      = colors.grays["800"],
 		norm_very_subtle = colors.grays["700"],
 
-		cursor_line = colors.grays["150"],
-		comment = colors.grays["450"],
-		oob = colors.grays["000"],
+    -- Colors
+		primary          = colors[vim.g.patana_primary_color]["500"],
+		secondary        = colors[vim.g.patana_secondary_color]["500"],
+		accent           = colors[vim.g.patana_accent_color]["500"],
 
-		visual = colors.greens["200"],
-		literal = colors.purples["700"],
-
-		error = colors.purples["400"],
-		warn = colors.oranges["400"],
-		hint = colors.greens["400"],
-		info = colors.grays["850"],
-		ok = colors.grays["850"],
+    -- Special
+		cursor_line      = colors.grays["150"],
+		comment          = colors.grays["450"],
+		oob              = colors.grays["000"],
+    search           = colors.oranges["100"],
 	}
 else
 	palette = {
-		bg = colors.grays["850"],
-		bg_subtle = colors.grays["800"],
-		bg_very_subtle = colors.grays["700"],
-		norm = colors.grays["050"],
-		norm_subtle = colors.grays["100"],
+		-- Normal
+		bg               = colors.grays["850"],
+		bg_subtle        = colors.grays["800"],
+		bg_very_subtle   = colors.grays["700"],
+		norm             = colors.grays["050"],
+		norm_subtle      = colors.grays["100"],
 		norm_very_subtle = colors.grays["200"],
 
-		cursor_line = colors.grays["800"],
-		comment = colors.grays["450"],
-		oob = colors.grays["900"],
+		-- Colors
+		primary          = colors[vim.g.patana_primary_color]["500"],
+		secondary        = colors[vim.g.patana_secondary_color]["500"],
+		accent           = colors[vim.g.patana_accent_color]["500"],
 
-		visual = colors.oranges["800"],
-		literal = colors.greens["500"],
-
-		error = colors.purples["600"],
-		warn = colors.oranges["600"],
-		hint = colors.greens["600"],
-		info = colors.grays["050"],
-		ok = colors.grays["050"],
+		-- Special
+		cursor_line      = colors.grays["800"],
+		comment          = colors.grays["450"],
+		oob              = colors.grays["900"],
+		search           = colors.oranges["800"],
 	}
 end
 
 local hlgroups = {
 	-- normal {{{
-	Normal = { fg = palette.norm, bg = palette.bg },
-	NormalFloat = { fg = palette.norm, bg = palette.bg_subtle },
-	NormalBorder = { link = "NormalFloat" },
+	Normal         = { fg = palette.norm, bg = palette.bg },
+	NormalFloat    = { fg = palette.norm, bg = palette.bg_subtle },
+	NormalBorder   = { link = "NormalFloat" },
 
-	Comment = { fg = palette.comment, italic = true },
+	Comment        = { fg = palette.comment, italic = true },
 	SpecialComment = { link = "Comment" },
-	Critical = { fg = palette.bg, bg = palette.accent, bold = true },
+
 	--}}}
 	-- constant literals {{{
-	Constant = { fg = palette.literal },
+	Constant  = { fg = palette.primary },
 	Character = { link = "Constant" },
-	Number = { link = "Constant" },
-	Boolean = { link = "Constant" },
-	Float = { link = "Constant" },
-	String = { link = "Constant" },
+	Number    = { link = "Constant" },
+	Boolean   = { link = "Constant" },
+	Float     = { link = "Constant" },
+	String    = { link = "Constant" },
 	Directory = { link = "Constant" },
-	Title = { link = "Constant" },
+	Title     = { link = "Constant" },
 	--}}}
 	-- syntax {{{
-	Function = { fg = palette.norm, bold = true },
+	Function   = { fg = palette.norm, bold = true },
 	Identifier = { link = "Function" },
 
-	Statement = { bold = true },
+	Statement  = { bold = true },
 	Conditonal = { link = "Statement" },
-	Repeat = { link = "Statement" },
-	Label = { link = "Statement" },
-	Keyword = { link = "Statement" },
-	Exception = { link = "Statement" },
+	Repeat     = { link = "Statement" },
+	Label      = { link = "Statement" },
+	Keyword    = { link = "Statement" },
+	Exception  = { link = "Statement" },
 
-	PreProc = { bold = true },
-	Include = { link = "PreProc" },
-	Define = { link = "PreProc" },
-	Macro = { link = "PreProc" },
+	PreProc   = { bold = true },
+	Include   = { link = "PreProc" },
+	Define    = { link = "PreProc" },
+	Macro     = { link = "PreProc" },
 	PreCondit = { link = "PreProc" },
 
-	Type = { underline = true },
+	Type         = { bg = palette.bg_subtle},
 	StorageClass = { link = "Type" },
-	Structure = { link = "Type" },
-	Typedef = { link = "Type" },
+	Structure    = { link = "Type" },
+	Typedef      = { link = "Type" },
 
-	Operator = { fg = palette.accent },
-	Debug = { link = "Operator" },
+	Operator = { fg = palette.norm_very_subtle },
+	Debug    = { link = "Operator" },
 
-	Special = { italic = true },
+	Special     = { italic = true },
 	SpecialChar = { link = "Special" },
-	Tag = { link = "Special" },
-	Delimiter = { link = "Special" },
+	Tag         = { link = "Special" },
+	Delimiter   = { link = "Special" },
 
+	Critical   = { fg = palette.bg, bg = palette.accent, bold = true },
+	Error      = { reverse = true, bold = true },
+	Ignore     = { fg = palette.norm_very_subtle },
+	Todo       = { fg = palette.accent, italic = true },
 	Underlined = { underline = true },
-	Ignore = { fg = palette.norm_very_subtle },
-	Error = { reverse = true, bold = true },
-	Todo = { fg = palette.accent, italic = true },
 	--}}}
 	-- spell {{{
-	SpellBad = { undercurl = true, sp = palette.norm },
-	SpellCap = { link = "SpellBad" },
-	SpellLocal = { link = "SpellBad" },
-	SpellRare = { link = "SpellBad" },
+	SpellBad                    = { undercurl = true, sp = palette.norm },
+	SpellCap                    = { link      = "SpellBad" },
+	SpellLocal                  = { link      = "SpellBad" },
+	SpellRare                   = { link      = "SpellBad" },
 	--}}}
 	-- ui {{{
-	ColorColumn = { link = "CursorLine" },
-	Conceal = { link = "Comment" },
-	CurSearch = { link = "Visual" },
-	Cursor = { fg = palette.bg, bg = palette.accent },
-	CursorColumn = { link = "CursorLine" },
-	CursorLine = { bg = palette.cursor_line },
-	CursorLineNr = { fg = palette.norm, bg = palette.cursor_line, bold = true },
-	EndOfBuffer = { link = "Normal" },
-	ErrorMsg = { fg = palette.accent, bold = true },
-	FloatBorder = { fg = palette.norm_subtle, bg = palette.bg_subtle },
-	FloatTitle = {
-		fg = palette.norm_subtle,
-		bg = palette.bg_subtle,
-		bold = true,
-		underline = true,
-	},
-	FoldColumn = { link = "SignColumn" },
-	Folded = { fg = palette.norm, bg = palette.bg, bold = true },
-	IncSearch = { link = "CurSearch" },
-	LineNr = { fg = palette.bg_very_subtle },
-	MatchParen = { reverse = true },
-	ModeMsg = { fg = palette.norm, bold = true },
-	MoreMsg = { fg = palette.norm, bold = true },
-	MsgArea = { fg = palette.norm, bg = palette.bg_very_subtle },
-	NonText = { fg = palette.norm_very_subtle },
-	NormalNC = { link = "Normal" },
+	ColorColumn       = { link = "CursorLine" },
+	Conceal           = { link = "Comment" },
+	CurSearch         = { link = "Search" },
+	Cursor            = { fg = palette.bg, bg = palette.accent },
+	CursorColumn      = { link = "CursorLine" },
+	CursorLine        = { bg = palette.cursor_line },
+	CursorLineNr      = { fg = palette.norm, bg = palette.cursor_line, bold = true },
+	EndOfBuffer       = { link = "Normal" },
+	ErrorMsg          = { fg = palette.accent, bold = true },
+	FloatBorder       = { fg = palette.norm_subtle, bg = palette.bg_subtle },
+	FloatTitle        = { fg = palette.norm_subtle, bg = palette.bg_subtle, bold = true, underline = true },
+	FoldColumn        = { link = "SignColumn" },
+	Folded            = { fg = palette.norm, bg = palette.bg, bold = true },
+	IncSearch         = { link = "Search" },
+	LineNr            = { fg = palette.bg_very_subtle },
+	MatchParen        = { reverse = true },
+	ModeMsg           = { fg = palette.norm, bold = true },
+	MoreMsg           = { fg = palette.norm, bold = true },
+	MsgArea           = { fg = palette.norm, bg = palette.bg_very_subtle },
+	NonText           = { fg = palette.norm_very_subtle },
+	NormalNC          = { link = "Normal" },
 	NvimInternalError = { link = "ErrorMsg" },
-	Pmenu = { bg = palette.bg_subtle },
-	PmenoSbar = { bg = palette.bg_subtle, reverse = true },
-	PmenuKind = { fg = palette.literal, bg = palette.bg_subtle },
-	PmenuSel = { fg = palette.norm, bg = palette.bg_subtle, reverse = true, bold = true },
-	PmenuKindSel = { fg = palette.literal, bg = palette.bg_subtle, reverse = true, bold = true },
-	Question = { bold = true },
-	QuickFixLine = { link = "Visual" },
-	Search = { link = "Visual" },
-	SignColumn = { bg = palette.bg, fg = palette.norm, bold = true },
-	SpecialKey = { fg = palette.norm_subtle },
-	StatusLine = { fg = palette.norm, bg = palette.cursor_line },
-	StatusLineNC = { fg = palette.norm, bg = palette.oob, italic = true },
-	StatusLineTerm = { link = "StatusLine" },
-	StatusLineTermNC = { link = "StatusLineNC" },
-	Substitute = { link = "IncSearch" },
-	TabLine = { fg = palette.norm_very_subtle, bg = palette.bg_very_subtle },
-	TabLineFill = { bg = palette.oob },
-	TabLineSel = { fg = palette.norm, bg = palette.bg, bold = true },
-	Visual = { bg = palette.visual, fg = palette.fg },
-	WarningMsg = { fg = palette.critical, bold = true },
-	WildMenu = { link = "IncSearch" },
-	WinBar = { link = "StatusLine" },
-	WinBarNC = { link = "StatusLineNc" },
-	WinSeparator = { fg = palette.norm, bg = palette.bg },
+	Pmenu             = { bg = palette.bg_subtle },
+	PmenuSbar         = { bg = palette.bg_subtle, reverse = true },
+	PmenuKind         = { fg = palette.primary, bg = palette.bg_subtle },
+	PmenuSel          = { fg = palette.norm, bg = palette.bg_subtle, reverse = true, bold = true },
+	PmenuKindSel      = { fg = palette.primary, bg = palette.bg_subtle, reverse= true, bold = true, },
+	Question          = { bold = true },
+	QuickFixLine      = { link = "Search" },
+	Search            = { bg = palette.search },
+	SignColumn        = { bg = palette.bg, fg = palette.norm, bold = true },
+	SpecialKey        = { fg = palette.norm_subtle },
+	StatusLine        = vim.tbl_extend("force", contrasting[vim.g.patana_primary_color], { bold = true }),
+	StatusLineNC      = contrasting[vim.g.patana_primary_color],
+	StatusLineTerm    = { link = "StatusLine" },
+	StatusLineTermNC  = { link = "StatusLineNC" },
+	Substitute        = { link = "Search" },
+	TabLine           = { fg = palette.norm_very_subtle, bg = palette.bg_very_subtle },
+	TabLineFill       = { bg = palette.oob },
+	TabLineSel        = { fg = palette.norm, bg = palette.bg, bold = true },
+	Visual            = { fg = palette.bg, bg = palette.primary },
+	WarningMsg        = { fg = palette.critical, bold = true },
+	WildMenu          = { link = "Search" },
+	WinBar            = { link = "StatusLine" },
+	WinBarNC          = { link = "StatusLineNc" },
+	WinSeparator      = { fg = palette.norm, bg = palette.bg },
 	--}}}
 	-- diagnostics {{{
-	DiagnosticDeprecated = { strikethrough = true },
+	DiagnosticDeprecated        = { strikethrough  =  true },
+	DiagnosticOk                = { fg = palette.norm, bold = true },
 
-	DiagnosticError = { fg = palette.error, bold = true },
-	DiagnosticWarn = { fg = palette.warn, bold = true },
-	DiagnosticHint = { fg = palette.hint, bold = true },
-	DiagnosticInfo = { fg = palette.info, bold = true },
-	DiagnosticOk = { fg = palette.ok, bold = true },
+	DiagnosticError             = { fg = palette.accent, bold = true },
+	DiagnosticDefaultError      = { link = "DiagnosticError" },
+	DiagnosticFloatingError     = { link = "DiagnosticError" },
+	DiagnosticSignError         = { link = "DiagnosticError" },
+	DiagnosticVirtualTextError  = { link = "DiagnosticError" },
 
-	DiagnosticUnderlineError = { sp = palette.error, undercurl = true, bold = true },
-	DiagnosticUnderlineWarn = { sp = palette.warn, undercurl = true, bold = true },
-	DiagnosticUnderlineHint = { sp = palette.hint, undercurl = true, bold = true },
-	DiagnosticUnderlineInfo = { sp = palette.info, undercurl = true, bold = true },
-	DiagnosticUnderlineOk = { sp = palette.norm, undercurl = true, bold = true },
+	DiagnosticWarn              = { fg = palette.secondary, bold = true },
+	DiagnosticDefaultWarn       = { link = "DiagnosticWarn" },
+	DiagnosticFloatingWarn      = { link = "DiagnosticWarn" },
+	DiagnosticSignWarn          = { link = "DiagnosticWarn" },
+	DiagnosticVirtualTextWarn   = { link = "DiagnosticWarn" },
 
-	DiagnosticVirtualTextError = { link = "DiagnosticError" },
-	DiagnosticVirtualTextHint = { link = "DiagnosticHint" },
-	DiagnosticVirtualTextInfo = { link = "DiagnosticInfo" },
-	DiagnosticVirtualTextWarn = { link = "DiagnosticWarn" },
+	DiagnosticHint              = { fg = palette.primary, bold = true },
+	DiagnosticDefaultHint       = { link = "DiagnosticHint" },
+	DiagnosticFloatingHint      = { link = "DiagnosticHint" },
+	DiagnosticSignHint          = { link = "DiagnosticHint" },
+	DiagnosticVirtualTextHint   = { link = "DiagnosticHint" },
 
-	DiagnosticDefaultError = { link = "DiagnosticError" },
-	DiagnosticDefaultHint = { link = "DiagnosticHint" },
-	DiagnosticDefaultInfo = { link = "DiagnosticInfo" },
-	DiagnosticDefaultWarn = { link = "DiagnosticWarn" },
+	DiagnosticInfo              = { fg = palette.norm, bold = true },
+	DiagnosticDefaultInfo       = { link = "DiagnosticInfo" },
+	DiagnosticFloatingInfo      = { link = "DiagnosticInfo" },
+	DiagnosticSignInfo          = { link = "DiagnosticInfo" },
+	DiagnosticVirtualTextInfo   = { link = "DiagnosticInfo" },
 
-	DiagnosticFloatingError = { link = "DiagnosticError" },
-	DiagnosticFloatingHint = { link = "DiagnosticHint" },
-	DiagnosticFloatingInfo = { link = "DiagnosticInfo" },
-	DiagnosticFloatingWarn = { link = "DiagnosticWarn" },
-
-	DiagnosticSignError = { link = "DiagnosticError" },
-	DiagnosticSignHint = { link = "DiagnosticHint" },
-	DiagnosticSignInfo = { link = "DiagnosticInfo" },
-	DiagnosticSignWarn = { link = "DiagnosticWarn" },
+	DiagnosticUnderlineError    = { sp = palette.accent,    undercurl = true, bold = true },
+	DiagnosticUnderlineWarn     = { sp = palette.secondary, undercurl = true, bold = true },
+	DiagnosticUnderlineHint     = { sp = palette.primary,   undercurl = true, bold = true },
+	DiagnosticUnderlineInfo     = { sp = palette.info,      undercurl = true, bold = true },
+	DiagnosticUnderlineOk       = { sp = palette.norm,      undercurl = true, bold = true },
 	--}}}
-	-- git-related {{{
-	Added = { fg = colors.greens["100"], bg = colors.greens["900"], reverse = vim.o.background == "dark" },
-	Changed = { fg = colors.oranges["100"], bg = colors.oranges["900"], reverse = vim.o.background == "dark" },
-	Removed = { fg = colors.purples["100"], bg = colors.purples["900"], reverse = vim.o.background == "dark" },
-	Deleted = { fg = colors.purples["100"], bg = colors.purples["900"], reverse = vim.o.background == "dark" },
+	-- diff {{{
+	Added            = { fg = colors.greens["100"], bg = colors.greens["900"], reverse = vim.o.background == "dark" },
+	DiffAdd          = { link = "Added" },
+	DiffAddGutter    = { link = "Added" },
+	GitAdd           = { link = "Added" },
 
-	DiffAdd = { link = "Added" },
-	DiffChange = { link = "Changed" },
-	DiffDelete = { link = "Removed" },
-	DiffRemoved = { link = "Removed" },
-
-	DiffAddGutter = { link = "Added" },
+	Changed          = { fg = colors.oranges["100"], bg = colors.oranges["900"], reverse = vim.o.background == "dark" },
+	DiffChange       = { link = "Changed" },
 	DiffChangeGutter = { link = "Changed" },
-	DiffDeleteGutter = { link = "Removed" },
+	GitChange        = { link = "Changed" },
 
-	GitAdd = { link = "Added" },
-	GitChange = { link = "Changed" },
-	GitDelete = { link = "Removed" },
+	Deleted          = { fg = colors.purples["100"], bg = colors.purples["900"], reverse = vim.o.background == "dark" },
+	DiffDelete       = { link = "Deleted" },
+	DiffDeleteGutter = { link = "Removed" },
+	GitDelete        = { link = "Removed" },
+
+	Removed          = { fg = colors.purples["100"], bg = colors.purples["900"], reverse = vim.o.background == "dark" },
+	DiffRemoved      = { link = "Removed" },
 	--}}}
 	-- treesitter {{{
-	["@string.documentation"] = { link = "Comment" },
+	["@string.documentation"]   = { link = "Comment" },
 	["@keyword.function.julia"] = { bold = true },
 	--}}}
 	-- quickscope.vim {{{
-	QuickScopeCursor = { link = "Cursor" },
-	QuickScopePrimary = { link = "Search" },
-	QuickScopeSecondary = { link = "IncSearch" },
+	QuickScopeCursor            = { link = "Cursor" },
+	QuickScopePrimary           = { link = "Search" },
+	QuickScopeSecondary         = { link = "IncSearch" },
 	--}}}
 	-- mini.nvim {{{
-	MiniStarterFooter = { link = "Normal" },
-	MiniStarterHeader = { link = "Normal" },
-	MiniStarterSection = { link = "Normal" },
+	MiniStarterFooter           = { link = "Normal" },
+	MiniStarterHeader           = { link = "Normal" },
+	MiniStarterSection          = { link = "Normal" },
 	--}}}
-	-- gitsigns.nvim{{{
-	GitSignsAdd = { link = "Added" },
-	GitSignsChange = { link = "Changed" },
-	GitSignsDelete = { link = "Removed" },
-	GitSignsAddNr = { link = "Added" },
+	-- gitsigns.nvim {{{
+	GitSignsAdd      = { link = "Added" },
+	GitSignsAddNr    = { link = "Added" },
+	GitSignsAddLn    = { link = "Added" },
+
+	GitSignsChange   = { link = "Changed" },
 	GitSignsChangeNr = { link = "Changed" },
-	GitSignsDeleteNr = { link = "Removed" },
-	GitSignsAddLn = { link = "Added" },
 	GitSignsChangeLn = { link = "Changed" },
+
+	GitSignsDelete   = { link = "Removed" },
+	GitSignsDeleteNr = { link = "Removed" },
 	GitSignsDeleteLn = { link = "Removed" },
 	--}}}
 	-- telescope.nvim {{{
 	TelescopeSelection = { link = "CursorLine" },
 	--}}}
 	-- whichkey.nvim {{{
-	WhichKey = { link = "NormalFloat" },
-	WhichKeyDesc = { link = "WhichKey" },
-	WhichKeyFloat = { link = "WhichKey" },
-	WhichKeyGroup = { link = "Operator" },
-	WhichKeyValue = { link = "Operator" },
-	WhichKeyBorder = { link = "WhichKey" },
+	WhichKey          = { link = "NormalFloat" },
+	WhichKeyDesc      = { link = "WhichKey" },
+	WhichKeyFloat     = { link = "WhichKey" },
+	WhichKeyGroup     = { link = "Operator" },
+	WhichKeyValue     = { link = "Operator" },
+	WhichKeyBorder    = { link = "WhichKey" },
 	WhichKeySeparator = { link = "Constant" },
 	--}}}
 	-- oil.nvim {{{
-	OilDir = { link = "Special" },
-	OilCopy = { link = "Function" },
-	OilMove = { link = "Function" },
-	OilPurge = { link = "Function" },
-	OilTrash = { link = "String" },
-	OilChange = { link = "Change" },
-	OilCreate = { link = "Add" },
-	OilDelete = { link = "Removed" },
-	OilSocket = { link = "Constant" },
-	OilDirIcon = { link = "OilDir" },
-	OilRestore = { link = "Function" },
-	OilLinkTarget = { link = "Underline" },
+	OilDir             = { link = "Special" },
+	OilCopy            = { link = "Function" },
+	OilMove            = { link = "Function" },
+	OilPurge           = { link = "Function" },
+	OilTrash           = { link = "String" },
+	OilChange          = { link = "Change" },
+	OilCreate          = { link = "Add" },
+	OilDelete          = { link = "Removed" },
+	OilSocket          = { link = "Constant" },
+	OilDirIcon         = { link = "OilDir" },
+	OilRestore         = { link = "Function" },
+	OilLinkTarget      = { link = "Underline" },
 	OilTrashSourcePath = { link = "Normal" },
 	--}}}
 	-- sidebar {{{
-	NormalSB = { fg = palette.norm, bg = palette.oob },
-	SignColumnSB = { fg = palette.norm, bg = palette.oob },
-	WinSeparatorSB = { fg = palette.norm, bg = palette.oob },
+	NormalSB       = { fg =  palette.norm, bg = palette.oob },
+	SignColumnSB   = { fg =  palette.norm, bg = palette.oob },
+	WinSeparatorSB = { fg =  palette.norm, bg = palette.oob },
 	--}}}
 }
+-- stylua: ignore end
 
 -- Autocommands (source: https://github.com/folke/tokyonight.nvim/blob/f9e738e2dc78326166f11c021171b2e66a2ee426/lua/tokyonight/util.lua#L67)
 local augroup = vim.api.nvim_create_augroup("patana", { clear = true })
