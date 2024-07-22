@@ -18,24 +18,12 @@ end
 vim.o.termguicolors = true
 vim.g.colors_name = "patana"
 
--- Constants
-local DEFAULT_ORDER = { "greens", "oranges", "purples" }
-
 -- Configuration
-vim.g.patana_sidebar_filetypes = {
-	"qf",
-	"lazy",
-	"mason",
-	"help",
-	"oil",
-	"undotree",
-	"diff",
-	"gitcommit",
-}
 vim.g.patana_primary_color = vim.g.patana_primary_color or "greens"
 vim.g.patana_secondary_color = vim.g.patana_secondary_color or "oranges"
 vim.g.patana_accent_color = vim.g.patana_accent_color or "purples"
 
+-- Setup
 local colors = require("patana.colors")
 local contrasting = {
 	greens = { fg = colors.grays["000"], bg = colors.greens["700"] },
@@ -306,11 +294,6 @@ local hlgroups = {
 	OilLinkTarget      = { link = "Underline" },
 	OilTrashSourcePath = { link = "Normal" },
 	--}}}
-	-- sidebar {{{
-	NormalSB       = { fg =  palette.norm, bg = palette.oob },
-	SignColumnSB   = { fg =  palette.norm, bg = palette.oob },
-	WinSeparatorSB = { fg =  palette.norm, bg = palette.oob },
-	--}}}
 }
 -- stylua: ignore end
 
@@ -321,26 +304,6 @@ vim.api.nvim_create_autocmd("ColorSchemePre", {
 	callback = function()
 		vim.api.nvim_del_augroup_by_id(augroup)
 	end,
-})
-
-local function set_whl()
-	local win = vim.api.nvim_get_current_win()
-	local whl = vim.split(vim.wo[win].winhighlight, ",")
-	vim.list_extend(whl, { "Normal:NormalSB", "SignColumn:SignColumnSB", "WinSeparator:WinSeparatorSB" })
-	whl = vim.tbl_filter(function(hl)
-		return hl ~= ""
-	end, whl)
-	vim.opt_local.winhighlight = table.concat(whl, ",")
-end
-
-vim.api.nvim_create_autocmd("FileType", {
-	group = augroup,
-	pattern = vim.g.patana_sidebar_filetypes,
-	callback = set_whl,
-})
-vim.api.nvim_create_autocmd("TermOpen", {
-	group = augroup,
-	callback = set_whl,
 })
 
 for group, highlight in pairs(hlgroups) do
