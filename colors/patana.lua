@@ -45,7 +45,7 @@ local all_hlgroups = {
 }
 
 for _, hlgroups in pairs(all_hlgroups) do
-	for group, highlight in pairs(hlgroups) do
+	for group, highlight in pairs(hlgroups.get()) do
 		vim.api.nvim_set_hl(0, group, highlight)
 	end
 end

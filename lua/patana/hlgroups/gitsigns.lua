@@ -1,13 +1,19 @@
-return {
-	GitSignsAdd = { link = "Added" },
-	GitSignsAddNr = { link = "Added" },
-	GitSignsAddLn = { link = "Added" },
+M = {}
 
-	GitSignsChange = { link = "Changed" },
-	GitSignsChangeNr = { link = "Changed" },
-	GitSignsChangeLn = { link = "Changed" },
+function M.get()
+	return {
+		GitSignsAdd = { link = "Added" },
+		GitSignsAddNr = { link = "Added" },
+		GitSignsAddLn = { link = "Added" },
 
-	GitSignsDelete = { link = "Removed" },
-	GitSignsDeleteNr = { link = "Removed" },
-	GitSignsDeleteLn = { link = "Removed" },
-}
+		GitSignsChange = { link = "Changed" },
+		GitSignsChangeNr = { link = "Changed" },
+		GitSignsChangeLn = { link = "Changed" },
+
+		GitSignsDelete = { link = "Removed" },
+		GitSignsDeleteNr = { link = "Removed" },
+		GitSignsDeleteLn = { link = "Removed" },
+	}
+end
+
+return M
