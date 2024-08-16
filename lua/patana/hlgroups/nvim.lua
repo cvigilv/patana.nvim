@@ -84,7 +84,7 @@ function M.get()
 		MatchParen = { reverse = true },
 		ModeMsg = { fg = palette.norm, bold = true },
 		MoreMsg = { fg = palette.norm, bold = true },
-		MsgArea = { fg = palette.norm, bg = palette.bg_very_subtle },
+		MsgArea = { fg = palette.norm, bg = palette.oob },
 		NonText = { fg = palette.norm_very_subtle },
 		NormalNC = { link = "Normal" },
 		NvimInternalError = { link = "ErrorMsg" },
