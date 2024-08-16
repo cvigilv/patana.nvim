@@ -78,7 +78,7 @@ function M.get()
 		FloatBorder = { fg = palette.norm_subtle, bg = palette.bg_subtle },
 		FloatTitle = { fg = palette.norm_subtle, bg = palette.bg_subtle, bold = true, underline = true },
 		FoldColumn = { link = "SignColumn" },
-		Folded = { fg = palette.norm, bg = palette.bg, bold = true, italic = true },
+		Folded = { link = "Normal" },
 		IncSearch = { link = "Search" },
 		LineNr = { fg = palette.bg_very_subtle },
 		MatchParen = { reverse = true },
