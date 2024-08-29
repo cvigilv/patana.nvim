@@ -160,6 +160,7 @@ vim.g.patana_secondary_color = "oranges"
 vim.g.patana_accent_color = "purples"
 vim.g.patana_high_contrast = false
 vim.g.patana_colored_statusline = false
+vim.g.patana_oob_filetypes = { "qf", "lazy", "mason", "help" }
 ```
 
 ## Roadmap

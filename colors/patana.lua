@@ -24,6 +24,7 @@ vim.g.patana_secondary_color = vim.g.patana_secondary_color or "oranges"
 vim.g.patana_accent_color = vim.g.patana_accent_color or "purples"
 vim.g.patana_high_contrast = vim.g.patana_high_contrast or false
 vim.g.patana_colored_statusline = vim.g.patana_colored_statusline or false
+vim.g.patana_oob_filetypes = vim.g.patana_oob_filetypes or { "qf", "lazy", "mason", "help" }
 
 -- Setup
 local augroup = vim.api.nvim_create_augroup("patana", { clear = true })
@@ -35,6 +36,7 @@ vim.api.nvim_create_autocmd("ColorSchemePre", {
 })
 
 local all_hlgroups = {
+	require("patana.hlgroups.patana"),
 	require("patana.hlgroups.nvim"),
 	require("patana.hlgroups.gitsigns"),
 	require("patana.hlgroups.mini"),
@@ -49,3 +51,24 @@ for _, hlgroups in pairs(all_hlgroups) do
 		vim.api.nvim_set_hl(0, group, highlight)
 	end
 end
+
+-- Setup out-of-bound overrides
+local function set_oob()
+	local win = vim.api.nvim_get_current_win()
+	local whl = vim.split(vim.wo[win].winhighlight, ",")
+	vim.list_extend(whl, { "Normal:UserOOB", "SignColumn:UserOOB" })
+	whl = vim.tbl_filter(function(hl)
+		return hl ~= ""
+	end, whl)
+	vim.opt_local.winhighlight = table.concat(whl, ",")
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+	group = augroup,
+	pattern = vim.g.patana_oob_filetypes,
+	callback = set_oob,
+})
+vim.api.nvim_create_autocmd("TermOpen", {
+	group = augroup,
+	callback = set_oob,
+})
