@@ -148,6 +148,20 @@ git clone --depth=1 https://github.com/cvigilv/patana.nvim.git \
 > manager to point to the `develop` branch. But beware, you must expect new functionality, bugs
 > and breaking changes from time to time.
 
+## Options
+
+`patana.nvim` offers a reduced set of options meant to change the experience of using this
+colorscheme. This are accessed using a ser of global variables prefixed with `patana_`. The
+available options and default values are the following:
+
+```lua
+vim.g.patana_primary_color = "greens"
+vim.g.patana_secondary_color = "oranges"
+vim.g.patana_accent_color = "purples"
+vim.g.patana_high_contrast = false
+vim.g.patana_colored_statusline = false
+```
+
 ## Roadmap
 
 This is my personal theme, that is **very opinionated and intended to be used
