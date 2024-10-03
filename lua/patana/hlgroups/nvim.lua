@@ -69,7 +69,7 @@ function M.get()
 		ColorColumn = { link = "CursorLine" },
 		Conceal = { link = "Comment" },
 		CurSearch = { fg = palette.bg, bg = palette.norm, bold = true },
-		Cursor = { fg = palette.bg, bg = palette.accent },
+		Cursor = { reverse = true },
 		CursorColumn = { link = "CursorLine" },
 		CursorLine = { bg = palette.cursor_line },
 		CursorLineNr = { fg = palette.norm, bg = palette.cursor_line, bold = true },
@@ -90,9 +90,9 @@ function M.get()
 		NvimInternalError = { link = "ErrorMsg" },
 		Pmenu = { bg = palette.bg_subtle },
 		PmenuSbar = { bg = palette.bg_subtle, reverse = true },
-		PmenuKind = { fg = palette.primary, bg = palette.bg_subtle },
+		PmenuKind = { fg = palette.primary, bg = palette.bg_subtle, italic = true },
 		PmenuSel = { fg = palette.norm, bg = palette.bg_subtle, reverse = true, bold = true },
-		PmenuKindSel = { fg = palette.primary, bg = palette.bg_subtle, reverse = true, bold = true },
+		PmenuKindSel = { fg = palette.primary, bg = palette.norm, bold = true },
 		Question = { bold = true },
 		QuickFixLine = { link = "Search" },
 		Search = { fg = palette.bg, bg = palette.primary, bold = true },
@@ -104,7 +104,7 @@ function M.get()
 			bold = true,
 		},
 		StatusLineNC = {
-			fg = vim.g.patana_colored_statusline and "#000000" or palette.fg,
+			fg = vim.g.patana_colored_statusline and "#222222" or palette.comment,
 			bg = vim.g.patana_colored_statusline and palette.contrasting or palette.bg_subtle,
 		},
 		StatusLineTerm = { link = "StatusLine" },
@@ -113,12 +113,12 @@ function M.get()
 		TabLine = { fg = palette.norm_very_subtle, bg = palette.bg_very_subtle },
 		TabLineFill = { bg = palette.oob },
 		TabLineSel = { fg = palette.norm, bg = palette.bg_subtle, bold = true },
-		Visual = { fg = palette.bg, bg = palette.primary },
+		Visual = { link = "CursorLine" },
 		WarningMsg = { fg = palette.critical, bold = true },
 		WildMenu = { link = "Search" },
-		WinBar = { link = "StatusLine" },
-		WinBarNC = { link = "StatusLineNc" },
-		WinSeparator = { fg = palette.norm, bg = palette.bg },
+		WinBar = { fg = palette.fg, bg = palette.bg, bold = true },
+		WinBarNC = { fg = palette.comment, bg = palette.bg },
+		WinSeparator = { fg = palette.oob },
 		--}}}
 		-- diagnostics {{{
 		DiagnosticDeprecated = { strikethrough = true },
@@ -178,7 +178,11 @@ function M.get()
 		-- treesitter {{{
 		["@string.documentation"] = { link = "Comment" },
 		["@keyword.function.julia"] = { bold = true },
+		["@lsp.typemod.variable.global.lua"] = { fg = palette.primary, bold = true },
 		--}}}
+		-- lsp {{{
+		LspInlayHint = { fg = palette.comment, italic = true },
+		-- }}}
 	}
 end
 

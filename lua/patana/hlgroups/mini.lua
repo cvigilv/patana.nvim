@@ -24,7 +24,7 @@ function M.get()
 		MiniPickPreviewRegion = { link = "Normal" }, -- target region in preview.
 		MiniPickPrompt = { link = "MiniPickNormal" }, -- prompt.
 		--}}}
-		---{{{ MiniStatusline
+		-- MiniStatusline {{{
 		MiniStatuslineModeNormal = { link = "StatusLine" },
 		MiniStatuslineModeInsert = { link = "StatusLine" },
 		MiniStatuslineModeVisual = { link = "StatusLine" },

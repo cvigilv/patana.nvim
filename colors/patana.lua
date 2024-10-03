@@ -38,12 +38,14 @@ vim.api.nvim_create_autocmd("ColorSchemePre", {
 local all_hlgroups = {
 	require("patana.hlgroups.patana"),
 	require("patana.hlgroups.nvim"),
+	require("patana.hlgroups.cmp"),
 	require("patana.hlgroups.gitsigns"),
 	require("patana.hlgroups.mini"),
 	require("patana.hlgroups.oil"),
 	require("patana.hlgroups.quickscope"),
 	require("patana.hlgroups.telescope"),
 	require("patana.hlgroups.whichkey"),
+	require("patana.hlgroups.misc"),
 }
 
 for _, hlgroups in pairs(all_hlgroups) do
