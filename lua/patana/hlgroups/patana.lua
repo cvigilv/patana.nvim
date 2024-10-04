@@ -5,7 +5,7 @@ function M.get()
 
 	return {
 		-- normal {{{
-		UserOOB = { fg = palette.norm, bg = palette.oob },
+		UserOOB = { fg = palette.oob, bg = palette.fg },
 		--}}}
 	}
 end

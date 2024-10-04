@@ -5,9 +5,9 @@ function M.get()
 	local colors = require("patana.colors")
 
 	return {
-		-- normal {{{
-		Normal = { fg = palette.norm, bg = palette.bg },
-		NormalFloat = { fg = palette.norm, bg = palette.bg_subtle },
+		-- fgal {{{
+		Normal = { fg = palette.fg, bg = palette.bg },
+		NormalFloat = { fg = palette.fg, bg = palette.bg_subtle },
 		NormalBorder = { link = "NormalFloat" },
 
 		Comment = { fg = palette.comment, italic = true },
@@ -24,10 +24,10 @@ function M.get()
 		Title = { link = "Constant" },
 		--}}}
 		-- syntax {{{
-		Function = { fg = palette.norm, bold = true },
+		Function = { fg = palette.fg, bold = true },
 		Identifier = { link = "Function" },
 
-		Statement = { bold = true },
+		Statement = { fg = palette.primary, bold = true },
 		Conditonal = { link = "Statement" },
 		Repeat = { link = "Statement" },
 		Label = { link = "Statement" },
@@ -45,7 +45,7 @@ function M.get()
 		Structure = { link = "Type" },
 		Typedef = { link = "Type" },
 
-		Operator = { fg = palette.norm_very_subtle },
+		Operator = { fg = palette.fg_very_subtle },
 		Debug = { link = "Operator" },
 
 		Special = { italic = true },
@@ -55,12 +55,12 @@ function M.get()
 
 		Critical = { fg = palette.bg, bg = palette.accent, bold = true },
 		Error = { reverse = true, bold = true },
-		Ignore = { fg = palette.norm_very_subtle },
+		Ignore = { fg = palette.fg_very_subtle },
 		Todo = { fg = palette.accent, italic = true },
 		Underlined = { underline = true },
 		--}}}
 		-- spell {{{
-		SpellBad = { undercurl = true, sp = palette.norm },
+		SpellBad = { undercurl = true, sp = palette.fg },
 		SpellCap = { link = "SpellBad" },
 		SpellLocal = { link = "SpellBad" },
 		SpellRare = { link = "SpellBad" },
@@ -68,36 +68,36 @@ function M.get()
 		-- ui {{{
 		ColorColumn = { link = "CursorLine" },
 		Conceal = { link = "Comment" },
-		CurSearch = { fg = palette.bg, bg = palette.norm, bold = true },
+		CurSearch = { fg = palette.bg, bg = palette.fg, bold = true },
 		Cursor = { fg = palette.bg, bg = palette.accent },
 		CursorColumn = { link = "CursorLine" },
 		CursorLine = { bg = palette.cursor_line },
-		CursorLineNr = { fg = palette.norm, bg = palette.cursor_line, bold = true },
+		CursorLineNr = { fg = palette.fg, bg = palette.cursor_line, bold = true },
 		EndOfBuffer = { link = "Normal" },
 		ErrorMsg = { fg = palette.accent, bold = true },
-		FloatBorder = { fg = palette.norm_subtle, bg = palette.bg_subtle },
-		FloatTitle = { fg = palette.norm_subtle, bg = palette.bg_subtle, bold = true, underline = true },
+		FloatBorder = { fg = palette.fg_subtle, bg = palette.bg_subtle },
+		FloatTitle = { fg = palette.fg_subtle, bg = palette.bg_subtle, bold = true, underline = true },
 		FoldColumn = { link = "SignColumn" },
 		Folded = { link = "Normal" },
 		IncSearch = { link = "Search" },
 		LineNr = { fg = palette.bg_very_subtle },
 		MatchParen = { reverse = true },
-		ModeMsg = { fg = palette.norm, bold = true },
-		MoreMsg = { fg = palette.norm, bold = true },
-		MsgArea = { fg = palette.norm, bg = palette.oob },
-		NonText = { fg = palette.norm_very_subtle },
+		ModeMsg = { fg = palette.fg, bold = true },
+		MoreMsg = { fg = palette.fg, bold = true },
+		MsgArea = { fg = palette.fg, bg = palette.oob },
+		NonText = { fg = palette.fg_very_subtle },
 		NormalNC = { link = "Normal" },
 		NvimInternalError = { link = "ErrorMsg" },
 		Pmenu = { bg = palette.bg_subtle },
 		PmenuSbar = { bg = palette.bg_subtle, reverse = true },
 		PmenuKind = { fg = palette.primary, bg = palette.bg_subtle },
-		PmenuSel = { fg = palette.norm, bg = palette.bg_subtle, reverse = true, bold = true },
+		PmenuSel = { fg = palette.fg, bg = palette.bg_subtle, reverse = true, bold = true },
 		PmenuKindSel = { fg = palette.primary, bg = palette.bg_subtle, reverse = true, bold = true },
 		Question = { bold = true },
 		QuickFixLine = { link = "Search" },
 		Search = { fg = palette.bg, bg = palette.primary, bold = true },
-		SignColumn = { bg = palette.bg, fg = palette.norm, bold = true },
-		SpecialKey = { fg = palette.norm_subtle },
+		SignColumn = { bg = palette.bg, fg = palette.fg, bold = true },
+		SpecialKey = { fg = palette.fg_subtle },
 		StatusLine = {
 			fg = vim.g.patana_colored_statusline and "#000000" or palette.fg,
 			bg = vim.g.patana_colored_statusline and palette.contrasting or palette.bg_subtle,
@@ -110,19 +110,19 @@ function M.get()
 		StatusLineTerm = { link = "StatusLine" },
 		StatusLineTermNC = { link = "StatusLineNC" },
 		Substitute = { link = "Search" },
-		TabLine = { fg = palette.norm_very_subtle, bg = palette.bg_very_subtle },
+		TabLine = { fg = palette.fg_very_subtle, bg = palette.bg_very_subtle },
 		TabLineFill = { bg = palette.oob },
-		TabLineSel = { fg = palette.norm, bg = palette.bg_subtle, bold = true },
+		TabLineSel = { fg = palette.fg, bg = palette.bg_subtle, bold = true },
 		Visual = { fg = palette.bg, bg = palette.primary },
 		WarningMsg = { fg = palette.critical, bold = true },
 		WildMenu = { link = "Search" },
-		WinBar = { link = "StatusLine" },
-		WinBarNC = { link = "StatusLineNc" },
-		WinSeparator = { fg = palette.norm, bg = palette.bg },
+		WinBar = { link = "Normal" },
+		WinBarNC = { link = "Comment" },
+		WinSeparator = { fg = palette.oob, bg = palette.bg },
 		--}}}
 		-- diagnostics {{{
 		DiagnosticDeprecated = { strikethrough = true },
-		DiagnosticOk = { fg = palette.norm, bold = true },
+		DiagnosticOk = { fg = palette.fg, bold = true },
 
 		DiagnosticError = { fg = palette.accent, bold = true },
 		DiagnosticDefaultError = { link = "DiagnosticError" },
@@ -142,7 +142,7 @@ function M.get()
 		DiagnosticSignHint = { link = "DiagnosticHint" },
 		DiagnosticVirtualTextHint = { link = "DiagnosticHint" },
 
-		DiagnosticInfo = { fg = palette.norm, bold = true },
+		DiagnosticInfo = { fg = palette.fg, bold = true },
 		DiagnosticDefaultInfo = { link = "DiagnosticInfo" },
 		DiagnosticFloatingInfo = { link = "DiagnosticInfo" },
 		DiagnosticSignInfo = { link = "DiagnosticInfo" },
@@ -152,7 +152,7 @@ function M.get()
 		DiagnosticUnderlineWarn = { sp = palette.secondary, undercurl = true, bold = true },
 		DiagnosticUnderlineHint = { sp = palette.primary, undercurl = true, bold = true },
 		DiagnosticUnderlineInfo = { sp = palette.info, undercurl = true, bold = true },
-		DiagnosticUnderlineOk = { sp = palette.norm, undercurl = true, bold = true },
+		DiagnosticUnderlineOk = { sp = palette.fg, undercurl = true, bold = true },
 		--}}}
 		-- diff {{{
 		Added = { fg = colors.greens["100"], bg = colors.greens["900"], reverse = vim.o.background == "dark" },
@@ -173,7 +173,7 @@ function M.get()
 		Removed = { fg = colors.purples["100"], bg = colors.purples["900"], reverse = vim.o.background == "dark" },
 		DiffRemoved = { link = "Removed" },
 
-		DiffText = { fg = colors.norm, bg = colors.bg_subtle },
+		DiffText = { fg = colors.fg, bg = colors.bg_subtle },
 		--}}}
 		-- treesitter {{{
 		["@string.documentation"] = { link = "Comment" },
