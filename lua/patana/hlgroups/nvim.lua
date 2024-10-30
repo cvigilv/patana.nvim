@@ -5,7 +5,7 @@ function M.get()
 	local colors = require("patana.colors")
 
 	return {
-		-- fgal {{{
+		-- Normal {{{
 		Normal = { fg = palette.fg, bg = palette.bg },
 		NormalFloat = { fg = palette.fg, bg = palette.bg_subtle },
 		NormalBorder = { link = "NormalFloat" },
@@ -27,7 +27,7 @@ function M.get()
 		Function = { fg = palette.fg, bold = true },
 		Identifier = { link = "Function" },
 
-		Statement = { fg = palette.primary, bold = true },
+		Statement = { fg = palette.fg, italic = true },
 		Conditonal = { link = "Statement" },
 		Repeat = { link = "Statement" },
 		Label = { link = "Statement" },
@@ -48,7 +48,7 @@ function M.get()
 		Operator = { fg = palette.fg_very_subtle },
 		Debug = { link = "Operator" },
 
-		Special = { italic = true },
+		Special = { fg = palette.fg_very_subtle },
 		SpecialChar = { link = "Special" },
 		Tag = { link = "Special" },
 		Delimiter = { link = "Special" },
@@ -154,27 +154,27 @@ function M.get()
 		DiagnosticUnderlineInfo = { sp = palette.info, undercurl = true, bold = true },
 		DiagnosticUnderlineOk = { sp = palette.fg, undercurl = true, bold = true },
 		--}}}
-		-- diff {{{
-		Added = { fg = colors.greens["100"], bg = colors.greens["900"], reverse = vim.o.background == "dark" },
-		DiffAdd = { link = "Added" },
-		DiffAddGutter = { link = "Added" },
-		GitAdd = { link = "Added" },
-
-		Changed = { fg = colors.oranges["100"], bg = colors.oranges["900"], reverse = vim.o.background == "dark" },
-		DiffChange = { link = "Changed" },
-		DiffChangeGutter = { link = "Changed" },
-		GitChange = { link = "Changed" },
-
-		Deleted = { fg = colors.purples["100"], bg = colors.purples["900"], reverse = vim.o.background == "dark" },
-		DiffDelete = { link = "Deleted" },
-		DiffDeleteGutter = { link = "Removed" },
-		GitDelete = { link = "Removed" },
-
-		Removed = { fg = colors.purples["100"], bg = colors.purples["900"], reverse = vim.o.background == "dark" },
-		DiffRemoved = { link = "Removed" },
-
-		DiffText = { fg = colors.fg, bg = colors.bg_subtle },
-		--}}}
+		-- -- diff {{{
+		-- Added = { fg = colors.greens["100"], bg = colors.greens["900"], reverse = vim.o.background == "dark" },
+		-- DiffAdd = { link = "Added" },
+		-- DiffAddGutter = { link = "Added" },
+		-- GitAdd = { link = "Added" },
+		--
+		-- Changed = { fg = colors.oranges["100"], bg = colors.oranges["900"], reverse = vim.o.background == "dark" },
+		-- DiffChange = { link = "Changed" },
+		-- DiffChangeGutter = { link = "Changed" },
+		-- GitChange = { link = "Changed" },
+		--
+		-- Deleted = { fg = colors.purples["100"], bg = colors.purples["900"], reverse = vim.o.background == "dark" },
+		-- DiffDelete = { link = "Deleted" },
+		-- DiffDeleteGutter = { link = "Removed" },
+		-- GitDelete = { link = "Removed" },
+		--
+		-- Removed = { fg = colors.purples["100"], bg = colors.purples["900"], reverse = vim.o.background == "dark" },
+		-- DiffRemoved = { link = "Removed" },
+		--
+		-- DiffText = { fg = colors.fg, bg = colors.bg_subtle },
+		-- --}}}
 		-- treesitter {{{
 		["@string.documentation"] = { link = "Comment" },
 		["@keyword.function.julia"] = { bold = true },

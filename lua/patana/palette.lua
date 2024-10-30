@@ -8,46 +8,46 @@ function M.generate_palette()
   if vim.o.background == "dark" then
     palette = {
       -- Normal
-      bg             = vim.g.patana_high_contrast and colors.blacks["900"] or colors.blacks["800"],
-      bg_subtle      = vim.g.patana_high_contrast and colors.blacks["800"] or colors.blacks["700"],
-      bg_very_subtle = vim.g.patana_high_contrast and colors.blacks["700"] or colors.blacks["600"],
-      fg             = vim.g.patana_high_contrast and colors.whites["800"] or colors.whites["800"],
-      fg_subtle      = vim.g.patana_high_contrast and colors.whites["700"] or colors.whites["700"],
-      fg_very_subtle = vim.g.patana_high_contrast and colors.whites["600"] or colors.whites["600"],
+      bg             = vim.g.patana_high_contrast and colors["00"] or colors["01"],
+      bg_subtle      = vim.g.patana_high_contrast and colors["01"] or colors["02"],
+      bg_very_subtle = vim.g.patana_high_contrast and colors["02"] or colors["03"],
+      fg             = vim.g.patana_high_contrast and colors["11"] or colors["10"],
+      fg_subtle      = vim.g.patana_high_contrast and colors["10"] or colors["09"],
+      fg_very_subtle = vim.g.patana_high_contrast and colors["09"] or colors["08"],
 
       -- Colors
-      primary        = colors[vim.g.patana_primary_color]["600"],
-      secondary      = colors[vim.g.patana_secondary_color]["600"],
-      accent         = colors[vim.g.patana_accent_color]["600"],
+      primary        = colors["16"],
+      secondary      = colors["13"],
+      accent         = colors["19"],
 
       -- Special
-      cursor_line    = vim.g.patana_high_contrast and colors.blacks["850"] or colors.blacks["750"],
-      comment        = colors.whites["000"],
-      oob            = colors.blacks["900"],
-      search         = colors[vim.g.patana_primary_color]["200"],
-      contrasting    = colors[vim.g.patana_primary_color]["700"],
+      cursor_line    = vim.g.patana_high_contrast and colors["01"] or colors["00"],
+      comment        = colors["04"],
+      oob            = colors["00"],
+      search         = colors["13"],
+      contrasting    = colors["19"],
     }
   else
     palette = {
       -- Normal
-      bg             = vim.g.patana_high_contrast and colors.whites["900"] or colors.whites["800"],
-      bg_subtle      = vim.g.patana_high_contrast and colors.whites["800"] or colors.whites["700"],
-      bg_very_subtle = vim.g.patana_high_contrast and colors.whites["700"] or colors.whites["600"],
-      fg             = vim.g.patana_high_contrast and colors.blacks["800"] or colors.blacks["800"],
-      fg_subtle      = vim.g.patana_high_contrast and colors.blacks["700"] or colors.blacks["700"],
-      fg_very_subtle = vim.g.patana_high_contrast and colors.blacks["600"] or colors.blacks["600"],
+      bg             = vim.g.patana_high_contrast and colors["11"] or colors["10"],
+      bg_subtle      = vim.g.patana_high_contrast and colors["10"] or colors["09"],
+      bg_very_subtle = vim.g.patana_high_contrast and colors["09"] or colors["08"],
+      fg             = vim.g.patana_high_contrast and colors["00"] or colors["02"],
+      fg_subtle      = vim.g.patana_high_contrast and colors["01"] or colors["03"],
+      fg_very_subtle = vim.g.patana_high_contrast and colors["02"] or colors["04"],
 
       -- Colors
-      primary        = colors[vim.g.patana_primary_color]["400"],
-      secondary      = colors[vim.g.patana_secondary_color]["400"],
-      accent         = colors[vim.g.patana_accent_color]["400"],
+      primary        = colors["13"],
+      secondary      = colors["16"],
+      accent         = colors["19"],
 
       -- Special
-      cursor_line    = vim.g.patana_high_contrast and colors.whites["850"] or colors.whites["750"],
-      comment        = colors.blacks["000"],
-      oob            = colors.whites["900"],
-      search         = colors[vim.g.patana_primary_color]["800"],
-      contrasting    = colors[vim.g.patana_primary_color]["700"],
+      cursor_line    = vim.g.patana_high_contrast and colors["11"] or colors["10"],
+      comment        = colors["07"],
+      oob            = colors["11"],
+      search         = colors["13"],
+      contrasting    = colors["19"],
     }
   end
 	-- stylua: ignore end
